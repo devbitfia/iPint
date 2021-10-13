@@ -161,6 +161,8 @@ sample response
 
    *FAILED* means customer didn't pay the invoice or transaction is pending on blockchain, see blockchain_transaction_status in the response
 
+2. To check whether invoice is full in paid, compare invoice_amount_in_local_currency, invoice_amount_in_usd, invoice_crypto_amount with received_amount_in_local_currency, received_amount_in_usd, received_crypto_amount respectively
+
 
 
 #### <a name="example_code_for_authentcated_endpoints">Example code for authenticated endpoints</a>
