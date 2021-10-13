@@ -41,50 +41,64 @@ To open iPint checkout page, redirect to https:ipint.io/checkout?id=fetch-id-fro
 - All endpoints return either a JSON object or array.
 - In case of POST method, request data will be JSON 
 - Base URL https://api.ipint.io:8003
-##### <a name="checkout_endpoint">Checkout</a>
+- Testnet Base URL https://api.ipint.io:8002
+#### <a name="checkout_endpoint">Checkout</a>
 To get id to be fetched in the redirect url.
 * ###### URL
   /checkout
 * ###### Method
   POST
 * ###### Headers
-  apikey
+  apikey: your-api-key
 * ###### URL Params
   None
 * ###### Data Params
   *Required:* client_email_id, client_preferred_fiat_currency, merchant_website
   
-  *Conditional:* merchant_id
+  *Conditional:* merchant_id, to be used if B2B
   
   *Optional:* amount
   
-```
-{
-    "client_email_id": "client-email-address-for-unique-reference-id",
-    "client_preferred_fiat_currency": "local-currency-code",
-    "amount": "amount-in-local-currency",
-    "merchant_id": "ipint-merchant-id",
-    "merchant_website": "merchant-website"
-}
-```
+  ```
+  {
+      "client_email_id": "client-email-address-for-unique-reference-id",
+      "client_preferred_fiat_currency": "local-currency-code",
+      "amount": "amount-in-local-currency-upto-two-decimal-places",
+      "merchant_id": "ipint-merchant-id",
+      "merchant_website": "redirect-url-page-where-you-want-to-redirect-the-customer"
+  }
+  ```
+  curl sample request
+  ```
+  curl --location --request POST 'https://api.ipint.io:8003/checkout' \
+  --header 'apikey: your-api-key' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "client_email_id": "user@email.id",
+      "client_preferred_fiat_currency": "INR",
+      "amount": "4999.65",
+      "merchant_website": "https://merchant.redirect"
+  }'
+  ```
 * ###### Success Response
   *Code*: 200
   
-  *Content*: {"session_id":"id-to-be-fetched-in-the-url-to-redirect-to-ipint"}
-  
-  *Note*: Use this id <br />1.To redirect to the iPint checkout page.<br />2. To get status after the payment (call /invoice endpoint)
+  ```
+  {"session_id":"id-to-be-fetched-in-the-url-to-redirect-to-ipint"}
+  ```
+  sample response
+  ```
+  {"session_id":"voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"}
+  ```
+  *Note*: Use this id <br />1. To redirect to the iPint checkout page.<br />2. To get status after the payment (call [/invoice](#invoice_endpoint) endpoint)
 * ###### Error Response
   *Code*: 400
-  *Content*: {"error": true, "message": "error-messsage"}
+  ```
+  {"error": true, "message": "error-messsage"}
+  ```
 
-curl sample code
 
-
-    curl -H "Content-Type: application/json" -H "apikey: your-api-key" -X POST -d '{"client_email_id":"customer-email-id","client_preferred_fiat_currency":"local-currency-code", "merchant_id": "merchant-id"}' https://api.ipint.io:8003/checkout
-
-`
-
-##### <a name="invoice_endpoint">Invoice</a>
+#### <a name="invoice_endpoint">Invoice</a>
 To get payment status and details. Use the id that you got from the [/checkout](#checkout_endpoint) endpoint.
 * ###### URL
   /invoice
@@ -105,12 +119,49 @@ To get payment status and details. Use the id that you got from the [/checkout](
   
 curl sample code
 ```
-curl --location --request GET 'https://api.ipint.io:8003/invoice?id=id-from-the-response-of-onboard-endpoint' \
+curl --location --request GET 'https://api.ipint.io:8003/invoice?id=id-from-the-response-of-checkout-endpoint' \
 --header 'content-type: application/json' \
 --header 'apikey: your-api-key' \
 --header 'signature: hmac-signature-using-your-api-secret' \
 --header 'nonce: current-unix-time' 
 ```
+sample response
+```
+{'data': {'blockchain_confirmations': '0/6',
+  'blockchain_transaction_status': 'PENDING',
+  'depositor_email_id': 'user@email.id',
+  'invoice_amount_in_local_currency': '4999.65',
+  'invoice_amount_in_usd': '67.58',
+  'invoice_creation_time': '1633960704',
+  'invoice_crypto_amount': '0.11065324',
+  'invoice_id': 'voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8',
+  'local_currency_code': 'INR',
+  'received_amount_in_local_currency': '4999.65',
+  'received_amount_in_usd': '67.58',
+  'received_crypto_amount': '0.11065324',
+  'transaction_crypto': 'BCH',
+  'transaction_hash': '',
+  'transaction_onclick': '',
+  'transaction_status': 'CHECKING',
+  'transaction_time': '',
+  'wallet_address': 'qrk2dnecws4c6fm2av0mkuf5g4d4wm7lrcr0k2lmrh'},
+ 'user_data': {'company_name': 'merchant-name',
+  'depositor_id': 'user@email.id',
+  'email_id': 'user.receipt@email.id',
+  'website': '#'}}
+```
+*Note* : 
+1. To mark customer's payment, see *transaction_status* in the response from /invoice (GET).
+  
+   *CHECKING* means checking for transation on blockchain
+
+   *PROCESSING* means transaction hit blockchain but confirmations are less than 3, see blockchain_confirmations in the response
+
+   *COMPLETED* means transaction is completed, you can mark the payment successful
+
+   *FAILED* means customer didn't pay the invoice or transaction is pending on blockchain, see blockchain_transaction_status in the response
+
+
 
 #### <a name="example_code_for_authentcated_endpoints">Example code for authenticated endpoints</a>
 ##### <a name="javascript_code">Javascript</a>
