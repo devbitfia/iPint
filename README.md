@@ -225,7 +225,11 @@ To onboard a merchant of an aggregator
       "email": "e.g.benef@email.com",
       "country_phone_code": "e.g.+91",
       "phone_number": "e.g.7835211996"
-    }
+    },
+    "merchant_fee": "fee (in percentage, int or float value) to be charged from merchant",
+    "is_merchant_kyc_done_by_psp": "YES",  // confirmation by aggregator
+    "can_psp_share_merchant_data_with_ipint": "YES",  // confirmation by merchant - "We agree that you can share our 'Merchant KYC Details' with iPint."
+    "is_merchant_agreed_with_ipint_policies": "YES"  // confirmation by merchant - "We agree with iPint's Terms of Service (https://ipint.io/terms-services.html), Privacy Policy (https://ipint.io/privacy-policy.html) and AML/CFT Policy (https://ipint.io/aml-cft-policy.html)."
   }
 
 
