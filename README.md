@@ -8,6 +8,8 @@
     * [/checkout](#checkout_endpoint)
     * [/invoice](#invoice_endpoint)
     * [For Aggregator/PSP](#aggregator_api_reference)
+      * [Onboard Merchant](#aggregator_merchant_onboarding)
+      * [Merchant Settlement Info](#aggregator_merchant_settlement_info)
     * [Example code for authenticated endpoints](#example_code_for_authentcated_endpoints)
       * [Java](#java_code)
       * [Javascript](#javascript_code)
@@ -184,6 +186,8 @@ To onboard a merchant of an aggregator
   None
 * ###### Data Params
   All the details are of your merchant business.
+  
+  Sample Data
   ```
   {
     "legal_name_of_business": "Legal Name of Merchant Business",
@@ -238,6 +242,50 @@ To onboard a merchant of an aggregator
  
 * ###### Response 400
      {"error": true, "message": "description for error"}
+
+##### <a name="aggregator_merchant_settlement_info">Merchant Settlement Info</a>
+To provide settlement info for a merchant of an aggregator
+* ###### URL
+  /preferences
+* ###### Method
+  POST - to be called only once per merchant to add settlement info
+  
+  PUT - to update merchant settlement info
+* ###### Headers
+  content-type: application/json
+  
+  apikey: your-api-key
+  
+  signature: [hmac-signature-using-your-api-secret](#example_code_for_authentcated_endpoints)
+  
+  nonce: current-unix-time
+* ###### URL Params
+  None
+* ###### Data Params
+  Merchant wallet details to do settlement.
+  
+  Sample Data
+  ```
+  {
+    "merchant_id": "Merchant ID",
+    "settlement_accounts": [
+      {
+        "wallet_title": "My USDT Wallet",
+        "address": "0x00556a16efc8bbfa9cd462c4ae31bee126efcba2",
+        "currency": "USDT",
+        "percentage": "100%"
+      }
+    ],
+    "settlement_cycle": "Weekly"  // options: Daily, Weekly, Monthly
+  }
+
+
+* ###### Response 200
+     {"message": "OK"}
+ 
+* ###### Response 400
+     {"error": true, "message": "description for error"}
+     
 #### <a name="example_code_for_authentcated_endpoints">Example code for authenticated endpoints</a>
 ##### <a name="java_code">Java</a>
 <a href="https://github.com/devbitfia/iPint/tree/main/java-client">Check this directory for java code</a>
