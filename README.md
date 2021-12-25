@@ -7,7 +7,9 @@
   * [API Reference](#api_reference)
     * [/checkout](#checkout_endpoint)
     * [/invoice](#invoice_endpoint)
+    * [For Aggregator/PSP](#aggregator_api_reference)
     * [Example code for authenticated endpoints](#example_code_for_authentcated_endpoints)
+      * [Java](#java_code)
       * [Javascript](#javascript_code)
       * [Python](#python_code)
 
@@ -163,9 +165,79 @@ sample response
 
 2. To check whether invoice is full in paid, compare invoice_amount_in_local_currency, invoice_amount_in_usd, invoice_crypto_amount with received_amount_in_local_currency, received_amount_in_usd, received_crypto_amount respectively
 
+#### <a name="aggregator_api_reference">For Aggregator/PSP Only</a>
+##### <a name="aggregator_merchant_onboarding">Onboard Merchant</a>
+To onboard a merchant of an aggregator
+* ###### URL
+  /aggregator/merchants
+* ###### Method
+  POST
+* ###### Headers
+  content-type: application/json
+  
+  apikey: your-api-key
+  
+  signature: [hmac-signature-using-your-api-secret](#example_code_for_authentcated_endpoints)
+  
+  nonce: current-unix-time
+* ###### URL Params
+  None
+* ###### Data Params
+  All the details are of your merchant business.
+  ```
+  {
+    "legal_name_of_business": "Legal Name of Merchant Business",
+    "business_registration_country": "Name of Country of Merchant Business Registration",
+    "legal_status_of_business": "e.g. Sole Trader", // options: Sole Trader, Partnership, Incorporated Company, Government Organization, Non-Profit
+    "business_type": "e.g. B2B",  // options: B2B, B2C, Both
+    "industry": "e.g. Finance",  // you can check at https://api.ipint.io:8003/industries
+    "annual_revenue": "e.g. $ 0-1 Million",  // options: $ 0-1 Million, $ 1-25 Million, $ 25-100 Million, $ More than 100 Million
+    "trade_name_of_service": "Trade Name of Merchant Business",
+    "business_registration_number": "Business Registration Number",
+    "main_business_activity": "Main Activity of Business",
+    "target_website": "Website where API to be used",
+    "date_of_incorporation": "Date of Merchant Company Incorporation",  // Date format : YYYY-MM-DD
+    "expected_maximum_amount_single_transaction": "e.g.10000", // in usd
+    "expected_yearly_transaction_volume": "e.g.10000000",  // in usd
+    "merchant_tool": "API",
+    "legally_registered_business_address": {
+      "house_number": "e.g.23",
+      "street_name1": "e.g.near saw mill",
+      "street_name2": "e.g.Lotus Vihar",
+      "city": "e.g.Philadelphia",
+      "state": "e.g.Pennsylvania",
+      "postal_code": "e.g.19092"
+    },
+    "contact": {
+      "phone_number": "e.g.79832689342",
+      "country_phone_code": "e.g.+1",
+      "website": "e.g.abc.co",
+      "support_email": "e.g.support@abc.co",
+      "notification_email": "e.g.support@abc.co"
+    },
+    // Merchant Business Beneficial Owner Info
+    "business_beneficial_owner": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "date_of_birth": "Date of Birth",  // Date Format : YYYY-MM-DD
+      "relation_with_organization": "e.g. Managing Director/CEO",  // options: Managing Directer/CEO, Director, Promoter, Principal, Other
+      "other_relationship": "mention other relationship",  // if Other
+      "email": "e.g.benef@email.com",
+      "country_phone_code": "e.g.+91",
+      "phone_number": "e.g.7835211996"
+    }
+  }
 
 
+* ###### Response 200
+     {"message": "OK", "merchant_id": "Merchant ID"}
+ 
+* ###### Response 400
+     {"error": true, "message": "description for error"}
 #### <a name="example_code_for_authentcated_endpoints">Example code for authenticated endpoints</a>
+##### <a name="java_code">Java</a>
+<a href="https://github.com/devbitfia/iPint/tree/main/java-client">Check this directory for java code</a>
+
 ##### <a name="javascript_code">Javascript</a>
 ```
 const CryptoJS = require('crypto-js') // Standard JavaScript cryptography library
