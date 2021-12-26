@@ -194,7 +194,7 @@ To onboard a merchant of an aggregator
     "business_registration_country": "Name of Country of Merchant Business Registration",
     "legal_status_of_business": "e.g. Sole Trader", // options: Sole Trader, Partnership, Incorporated Company, Government Organization, Non-Profit
     "business_type": "e.g. B2B",  // options: B2B, B2C, Both
-    "industry": "e.g. Finance",  // you can check at https://api.ipint.io:8003/industries
+    "industry": "e.g. Financial Services",  // you can check at https://api.ipint.io:8003/industries
     "annual_revenue": "e.g. $ 0-1 Million",  // options: $ 0-1 Million, $ 1-25 Million, $ 25-100 Million, $ More than 100 Million
     "trade_name_of_service": "Trade Name of Merchant Business",
     "business_registration_number": "Business Registration Number",
@@ -224,7 +224,7 @@ To onboard a merchant of an aggregator
       "first_name": "First Name",
       "last_name": "Last Name",
       "date_of_birth": "Date of Birth",  // Date Format : YYYY-MM-DD
-      "relation_with_organization": "e.g. Managing Director/CEO",  // options: Managing Directer/CEO, Director, Promoter, Principal, Other
+      "relation_with_organization": "e.g. Managing Director/CEO",  // options: Managing Director/CEO, Director, Promoter, Principal, Other
       "other_relationship": "mention other relationship",  // if Other
       "email": "e.g.benef@email.com",
       "country_phone_code": "e.g.+91",
