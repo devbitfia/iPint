@@ -1,6 +1,9 @@
 # iPint-Doc
 * [Introduction](#introduction_)
 * [How it works?](#how_it_works)
+* [Get Started](#get_started)
+  * [Merchant](#get_started_merchant)
+  * [Aggregator](#get_started_aggregator)
 * [Development](#development_section)
   * [Integrating with iPint](#integrating_with_ipint)
   * [Checkout Page](#checkout_page)
@@ -9,7 +12,8 @@
     * [/invoice](#invoice_endpoint)
     * [For Aggregator/PSP](#aggregator_api_reference)
       * [Onboard Merchant](#aggregator_merchant_onboarding)
-      * [Merchant Settlement Info](#aggregator_merchant_settlement_info)
+      * [Submit Merchant Docs](#aggregator_merchant_docs)
+      * [Provide Merchant Settlement Info](#aggregator_merchant_settlement_info)
     * [Example code for authenticated endpoints](#example_code_for_authentcated_endpoints)
       * [Java](#java_code)
       * [Javascript](#javascript_code)
@@ -30,6 +34,54 @@ Payment is confirmed on blockchain. Customer gets deposit in his account. Mercha
 
 Check <a href="https://ipint.io/demo-checkout/" target="_blank">Demo</a>
 
+## <a name="get_started">Get Started</a>
+### <a name="get_started_merchant">For Merchant</a>
+#### Step 1
+Complete registration process at https://dashboard.ipint.io/agr/merchant-registration.html
+
+Once your account get activated, API Credentials will be shared on the registered email address.
+#### Step 2
+Check [Integration Options](#integrating_with_ipint)
+    
+    
+### <a name="get_started_aggregator">For Aggregator</a>
+#### Step 1
+Complete registration process at https://dashboard.ipint.io/agr/registration.html
+
+Once your account get activated, API Credentials will be shared on the registered email address.
+
+#### Step 2
+Once PSP account gets verified, PSP can onboard merchant
+
+It requires 
+1. merchant’s confirmation that merchant is agree with iPint’s Terms of Service, Privacy Policy and AML/CFT Policy
+2. merchant’s confirmation that PSP can share merchant’s kyc details with iPint
+3. confirmation that PSP has done KYC/AML check on merchant
+4. merchant’s kyc details to be shared with iPint
+5. merchant fee (%) to be charged from merchant
+6. merchant’s kyc documents
+   
+   a. Proof of Business Entity: Company's registration document such as Certificate of Incorporation or business license issued by the government.
+   
+   b. Proof of Business Address: Current utility bill or business lease/ rental agreement.
+   
+   c. Photo ID of Beneficial Owner: Passport or National ID.
+   
+   d. Bank Statement: 3 Months bank statements to be submitted.
+   
+   e. Tax ID documents: EIN Verification document, IRS letter or W9 form, or previously filed tax return form. [ For US, Netherlands & German Merchants]
+
+For requirements in above 5 points, you need to call [/aggregator/merchants](#aggregator_merchant_onboarding) endpoint
+
+To share merchant’s kyc documents, get aws s3 link from [/merchant/account](#aggregator_merchant_docs) endpoint.
+
+#### Step 3
+Provide Merchant's Settlement Info at [/preferences](#aggregator_merchant_settlement_info) endpoint.
+
+#### Step 4
+Check [Integration Options](#integrating_with_ipint)
+
+    
 ## <a name="development_section">Development</a>
 ### <a name="integrating_with_ipint">Integrating with iPint</a>
   * #### iPint API
@@ -44,10 +96,15 @@ To open iPint checkout page, redirect to https:ipint.io/checkout?id=fetch-id-fro
 ### <a name="api_reference">API Reference</a>
 - All endpoints return either a JSON object or array.
 - In case of POST method, request data will be JSON 
-- Base URL https://api.ipint.io:8003
+- Mainnet Base URL https://api.ipint.io:8003
 - Testnet Base URL https://api.ipint.io:8002
+
 #### <a name="checkout_endpoint">Checkout</a>
 To get id to be fetched in the redirect url.
+
+Mainnet Redirect URL : https:ipint.io/checkout?id=fetch-id-from-the-response
+
+Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-response
 * ###### URL
   /checkout
 * ###### Method
@@ -239,6 +296,33 @@ To onboard a merchant of an aggregator
 
 * ###### Response 200
      {"message": "OK", "merchant_id": "Merchant ID"}
+ 
+* ###### Response 400
+     {"error": true, "message": "description for error"}
+
+##### <a name="aggregator_merchant_docs">Merchant KYC Documents</a>
+To share merchant’s kyc documents, get aws s3 link. Get a new link to share each document.
+* ###### URL
+  /merchant/account
+* ###### Method
+  GET
+* ###### Headers
+  content-type: application/json
+  
+  apikey: your-api-key
+  
+  signature: [hmac-signature-using-your-api-secret](#example_code_for_authentcated_endpoints)
+  
+  nonce: current-unix-time
+* ###### URL Params
+  id : Merchant ID
+  
+  key : filename  e.g. Proof of Business Entity
+* ###### Data Params
+  None
+  
+* ###### Response 200
+     {"presigned_url": presigned url to upload a single document}
  
 * ###### Response 400
      {"error": true, "message": "description for error"}
