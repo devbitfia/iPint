@@ -126,7 +126,8 @@ Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-respons
       "client_preferred_fiat_currency": "local-currency-code",
       "amount": "amount-in-local-currency-upto-two-decimal-places",
       "merchant_id": "ipint-merchant-id",
-      "merchant_website": "redirect-url-page-where-you-want-to-redirect-the-customer"
+      "merchant_website": "redirect-url-page-where-you-want-to-redirect-the-customer",
+      "invoice_callback_url": "to get callback when payment status gets changed"
   }
   ```
   curl sample request
@@ -138,7 +139,8 @@ Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-respons
       "client_email_id": "user@email.id",
       "client_preferred_fiat_currency": "INR",
       "amount": "4999.65",
-      "merchant_website": "https://merchant.redirect"
+      "merchant_website": "https://merchant.redirect",
+      "invoice_callback_url": "https://merchant.web/callback"
   }'
   ```
 * ###### Success Response
@@ -218,11 +220,29 @@ sample response
 
    *PROCESSING* means transaction hit blockchain but confirmations are less than 3, see blockchain_confirmations in the response
 
-   *COMPLETED* means transaction is completed, you can mark the payment successful
+   *COMPLETED* means transaction is completed, you can mark the payment successful. If you get this status, do not query further.
 
-   *FAILED* means customer didn't pay the invoice or transaction is pending on blockchain, see blockchain_transaction_status in the response
+   *FAILED* means customer didn't pay the invoice or transaction is pending on blockchain, see blockchain_transaction_status in the response. If you get this status, do not query further.
+   
+   *CANCELLED* means customer didn't complete payment and closed process before qr code is generated. If you get this status, do not query further.
 
 2. To check whether invoice is full in paid, compare invoice_amount_in_local_currency, invoice_amount_in_usd, invoice_crypto_amount with received_amount_in_local_currency, received_amount_in_usd, received_crypto_amount respectively
+
+3. Invoice Callback is HTTP POST message sent from the iPint server to the merchant’s server.The primary purpose of callback is to alert the merchant’s  server that the status of an invoice has changed.
+   
+   i. HTTP POST Message (JSON) is to be sent to the invoice_callback_url provided by merchants when creating the invoice by calling [/checkout](#checkout_endpoint) endpoint.
+   
+   ii. It is sent for the invoice statuses COMPLETED, FAILED
+   
+   iii. The body consists keys invoice_id and status 
+   
+   iv. Make sure to not rely on whitelisting iPint’s sending IP addresses, as these IP addresses are subject to change without notice.
+   
+   v. Make sure to use HTTPS for your invoice_callback_url.
+   
+   vi. iPint  does not send a signed request, so the information in the body should not be trusted outright. It shall be used as a trigger to verify the status of a specific invoice. This is to be done via the GET [/invoices](#invoice_endpoint) endpoint since the invoice_id is provided in the body of invoice callback.
+   
+   vii. The iPint server expects an HTTP 200 response with an empty body. Any other HTTP response is considered by iPint as a failed delivery. The iPint server attempts to send request on the invoice_callback_url multiple times until the send is either successful or the iPint server gives up.
 
 #### <a name="aggregator_api_reference">For Aggregator/PSP Only</a>
 ##### <a name="aggregator_merchant_onboarding">Onboard Merchant</a>
