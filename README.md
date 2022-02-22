@@ -37,7 +37,7 @@ Check <a href="https://ipint.io/demo-checkout/" target="_blank">Demo</a>
 ## <a name="get_started">Get Started</a>
 ### <a name="get_started_merchant">For Merchant</a>
 #### Step 1
-Complete registration process at https://dashboard.ipint.io/agr/merchant-registration.html
+Complete registration process at https://dashboard.ipint.io/merchant/v1.5/registration.php
 
 Once your account get activated, API Credentials will be shared on the registered email address.
 #### Step 2
