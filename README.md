@@ -147,13 +147,20 @@ Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-respons
   *Code*: 200
   
   ```
-  {"session_id":"id-to-be-fetched-in-the-url-to-redirect-to-ipint"}
+  {"session_id":"id-to-be-fetched-in-the-url-to-redirect-to-ipint", "payment_process_url":"payment-process-url"}
   ```
   sample response
+  
+  For Mainnet (if you are using mainnet base url https://api.ipint.io:8003/)
   ```
-  {"session_id":"voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"}
+  {"session_id":"voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8","payment_process_url":"https://ipint.io/checkout?id=voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"}
   ```
-  *Note*: Use this id <br />1. To redirect to the iPint checkout page.<br />2. To get status after the payment (call [/invoice](#invoice_endpoint) endpoint)
+  
+  For Testnet (if you are using testnet base url https://api.ipint.io:8002/)
+  ```
+  {"session_id":"voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8","payment_process_url":"https://ipint.io/test-checkout?id=voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"}
+  ```
+  *Note*: Use this id to get status after the payment (call [/invoice](#invoice_endpoint) endpoint)
 * ###### Error Response
   *Code*: 400
   ```
