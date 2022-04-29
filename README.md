@@ -5,8 +5,11 @@
   * [Merchant](#get_started_merchant)
   * [Aggregator](#get_started_aggregator)
 * [Development](#development_section)
-  * [Integrating with iPint](#integrating_with_ipint)
-  * [Checkout Page](#checkout_page)
+  * [Integration Options](#integrating_with_ipint)
+    * [Custom APIs](#custom-apis)
+    * [Checkout Page](#checkout_page)
+    * [Pop-in iFrame](#pop-in-iframe)
+  * [Check Complete Payment Process on Testnet](#testing-on-testnet)
   * [API Reference](#api_reference)
     * [/checkout](#checkout_endpoint)
     * [/invoice](#invoice_endpoint)
@@ -83,16 +86,41 @@ Check [Integration Options](#integrating_with_ipint)
 
     
 ## <a name="development_section">Development</a>
-### <a name="integrating_with_ipint">Integrating with iPint</a>
-  * #### iPint API
-     Fully customizable integration into any online shop or website
+### <a name="integrating_with_ipint">Integration Options</a>
+  * #### Custom APIs
+     Fully customizable integration into any online shop or website. 
+     
+     To integrate with this option you need to call iPint’s secure APIs. API Doc : https://ipint.io:8010/docs/#!/customer/ (check customer section)
+
+  * #### <a name="checkout_page">Redirect to iPint</a>
+     Simple to implement, open in iPint secure page. You just need to redirect on iPint’s checkout page.
+     
+     To open iPint's checkout page, you need to call [/checkout](#checkout_endpoint) endpoint with HTTP POST Method, you will
+     get 'payment_process_url' in response, just redirect on it.
+     
+     As mentioned in [API Reference](#api_reference), use Mainnet Base URL (https://api.ipint.io:8003/) for production. To start with integration and testing purpose, use Testnet Base URL(https://api.ipint.io:8002/)
+     
   * #### Pop-in iFrame
-     Displaying within your web page
-  * #### Redirect to iPint
-     Simple to implement, open in iPint secure page
-### <a name="checkout_page">Checkout Page</a>
-To open iPint checkout page, redirect to https:ipint.io/checkout?id=fetch-id-from-the-following-step
-<br /> To get id to be fetched in the redirect url, call [/checkout](#checkout_endpoint) endpoint.
+     Displaying within your web page. For this option, you need to add the code given as below on your website.
+     ```
+     <iframe width="1270" height="740" src="payment_process_url-from-checkout-endpoint"></iframe>
+     ```
+     Example
+     ```
+     <iframe width="1270" height="740" src="https://ipint.io/checkout?id=voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"></iframe>
+     ```
+     
+### <a name="testing-on-testnet">Check Complete Payment Process on Testnet</a>
+Before testing with actual crypto, make sure you have tested the complete payment process on testnet
+with testnet coins. In order to test, you need to have a wallet app on your phone
+which has testnet coins.
+- We recommend Coinomi wallet for testnet. Please download it from here
+https://www.coinomi.com/en/downloads/
+- After downloading wallet, you need to fill this with testnet bitcoin. For receiving testnet
+bitcoins you can search for any faucet (this one looks good
+https://coinfaucet.eu/en/btc-testnet) and get testnet bitcoins. Please use your testnet bitcoin
+receiving address of coinomi wallet (add 'Bitcoin Test' from the list of coins). Once your wallet has testnet bitcoin, you can make
+payments to invoices which you generate by scanning QR code with your coinomi wallet app.
 ### <a name="api_reference">API Reference</a>
 - All endpoints return either a JSON object or array.
 - In case of POST method, request data will be JSON 
@@ -100,11 +128,7 @@ To open iPint checkout page, redirect to https:ipint.io/checkout?id=fetch-id-fro
 - Testnet Base URL https://api.ipint.io:8002
 
 #### <a name="checkout_endpoint">Checkout</a>
-To get id to be fetched in the redirect url.
-
-Mainnet Redirect URL : https:ipint.io/checkout?id=fetch-id-from-the-response
-
-Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-response
+To get 'payment_process_url' and redirect on it to open iPint's checkout page
 * ###### URL
   /checkout
 * ###### Method
@@ -126,7 +150,7 @@ Testnet Redirect URL : https:ipint.io/test-checkout?id=fetch-id-from-the-respons
       "client_preferred_fiat_currency": "local-currency-code",
       "amount": "amount-in-local-currency-upto-two-decimal-places",
       "merchant_id": "ipint-merchant-id",
-      "merchant_website": "redirect-url-page-where-you-want-to-redirect-the-customer",
+      "merchant_website": "redirect-url-of-the-page-where-you-want-to-redirect-the-customer-after-payment",
       "invoice_callback_url": "to get callback when payment status gets changed"
   }
   ```
