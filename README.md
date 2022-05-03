@@ -7,7 +7,7 @@
 * [Development](#development_section)
   * [Integration Options](#integrating_with_ipint)
     * [Custom APIs](#custom-apis)
-    * [Checkout Page](#checkout_page)
+    * [Checkout Page](#checkout-page)
     * [Pop-in iFrame](#pop-in-iframe)
   * [Check Complete Payment Process on Testnet](#testing-on-testnet)
   * [API Reference](#api_reference)
@@ -92,7 +92,7 @@ Check [Integration Options](#integrating_with_ipint)
      
      To integrate with this option you need to call iPint’s secure APIs. API Doc : https://ipint.io:8010/docs/#!/customer/ (check customer section)
 
-  * #### <a name="checkout_page">Redirect to iPint</a>
+  * #### <a name="checkout-page">Redirect to iPint</a>
      Simple to implement, open in iPint secure page. You just need to redirect on iPint’s checkout page.
      
      To open iPint's checkout page, you need to call [/checkout](#checkout_endpoint) endpoint with HTTP POST Method, you will
