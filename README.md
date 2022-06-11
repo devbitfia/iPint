@@ -110,6 +110,9 @@ Check [Integration Options](#integrating_with_ipint)
      <iframe width="1270" height="740" src="https://ipint.io/checkout?id=voZ3pYmiE16FLaSfFmytouwFfcjR4Zom8"></iframe>
      ```
      
+  * #### WooCommerce Plugin
+     Instant setup for your WooCommerce store. Find the plugin <a href="https://github.com/devbitfia/iPint-WooCommerce-Plugin" target="_blank">here</a>.
+     
 ### <a name="testing-on-testnet">Check Complete Payment Process on Testnet</a>
 Before testing with actual crypto, make sure you have tested the complete payment process on testnet
 with testnet coins. In order to test, you need to have a wallet app on your phone
