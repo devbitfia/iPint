@@ -130,8 +130,8 @@ You can check this article to understand <a href="https://ipint.io/support/How-t
 ### <a name="api_reference">API Reference</a>
 - All endpoints return either a JSON object or array.
 - In case of POST method, request data will be JSON 
-- Mainnet Base URL https://api.ipint.io:8003
-- Testnet Base URL https://api.ipint.io:8002
+- Mainnet Base URL https://api.ipint.io:8003  (Use in Production) 
+- Testnet Base URL https://api.ipint.io:8002  (Use for testing and integration purpose)
 
 #### <a name="checkout_endpoint">Checkout</a>
 To get 'payment_process_url' and redirect on it to open iPint's checkout page
