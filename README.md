@@ -124,6 +124,9 @@ bitcoins you can search for any faucet (this one looks good
 https://coinfaucet.eu/en/btc-testnet) and get testnet bitcoins. Please use your testnet bitcoin
 receiving address of coinomi wallet (add 'Bitcoin Test' from the list of coins). Once your wallet has testnet bitcoin, you can make
 payments to invoices which you generate by scanning QR code with your coinomi wallet app.
+
+You can check this article to understand <a href="https://ipint.io/support/How-to-test-iPint-in-testing-environment/" target="_blank">how to test iPint on testing environement (use testnet)?</a>
+
 ### <a name="api_reference">API Reference</a>
 - All endpoints return either a JSON object or array.
 - In case of POST method, request data will be JSON 
