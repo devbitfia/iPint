@@ -40,7 +40,7 @@ Check <a href="https://ipint.io/demo-checkout/" target="_blank">Demo</a>
 ## <a name="get_started">Get Started</a>
 ### <a name="get_started_merchant">For Merchant</a>
 #### Step 1
-Complete registration process at https://dashboard.ipint.io/merchant/v1.5/registration.php
+Complete registration process at https://dashboard.ipint.io/register/
 
 Once your account get activated, API Credentials will be shared on the registered email address.
 #### Step 2
@@ -49,7 +49,7 @@ Check [Integration Options](#integrating_with_ipint)
     
 ### <a name="get_started_aggregator">For Aggregator</a>
 #### Step 1
-Complete registration process at https://dashboard.ipint.io/agr/registration.html
+Complete registration process at https://dashboard.ipint.io/register/
 
 Once your account get activated, API Credentials will be shared on the registered email address.
 
@@ -90,7 +90,7 @@ Check [Integration Options](#integrating_with_ipint)
   * #### Custom APIs
      Fully customizable integration into any online shop or website. 
      
-     To integrate with this option you need to call iPint’s secure APIs. API Doc : https://ipint.io:8010/docs/#!/customer/ (check customer section)
+     To integrate with this option you need to call iPint’s secure APIs. API Doc : https://ipint.io:8010/docs/#/Merchant
 
   * #### <a name="checkout-page">Redirect to iPint</a>
      Simple to implement, open in iPint secure page. You just need to redirect on iPint’s checkout page.
@@ -111,7 +111,7 @@ Check [Integration Options](#integrating_with_ipint)
      ```
      
   * #### WooCommerce Plugin
-     Instant setup for your WooCommerce store. Find the plugin <a href="https://github.com/devbitfia/iPint-WooCommerce-Plugin" target="_blank">here</a>.
+     Instant setup for your WooCommerce store. Find the plugin <a href="https://wordpress.org/plugins/ipint-payments-gateway/" target="_blank">here</a>.
      
 ### <a name="testing-on-testnet">Check Complete Payment Process on Testnet</a>
 Before testing with actual crypto, make sure you have tested the complete payment process on testnet
