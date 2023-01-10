@@ -17,6 +17,7 @@
       * [Onboard Merchant](#aggregator_merchant_onboarding)
       * [Submit Merchant Docs](#aggregator_merchant_docs)
       * [Provide Merchant Settlement Info](#aggregator_merchant_settlement_info)
+      * [Update Merchant Profile Data](#aggregator_merchant_profile_update)
     * [Example code for authenticated endpoints](#example_code_for_authentcated_endpoints)
       * [Java](#java_code)
       * [Javascript](#javascript_code)
@@ -426,6 +427,50 @@ To provide settlement info for a merchant of an aggregator
  
 * ###### Response 400
      {"error": true, "message": "description for error"}
+
+##### <a name="aggregator_merchant_profile_update">Update Merchant Profile</a>
+To update profile data of a merchant of an aggregator
+* ###### URL
+  /settings
+* ###### Method
+  PUT 
+* ###### Headers
+  content-type: application/json
+  
+  apikey: your-api-key
+  
+  signature: [hmac-signature-using-your-api-secret](#example_code_for_authentcated_endpoints)
+  
+  nonce: current-unix-time
+* ###### URL Params
+  None
+* ###### Data Params
+  Merchant profile data to do update.
+  
+  Request Data
+  ```
+  {
+    "merchant_id": "Merchant ID",
+    "business_type": "e.g. B2B",  // options: B2B, B2C, Both
+    "country_phone_code": "+91",
+    "phone_number": "9998887776",
+    "support_email": "e.g. support@business.io",
+    "notification_email": "e.g. notify@business.io",
+    "annual_revenue": "e.g. $ 0-1 Million",  // options: $ 0-1 Million, $ 1-25 Million, $ 25-100 Million, $ More than 100 Million
+    "industry": "e.g. Financial Services",  // you can check at https://api.ipint.io:8003/industries
+    "trade_name_of_service": "Trade Name of Merchant Business",
+    "website": "e.g.abc.co",
+    "expected_maximum_amount_single_transaction": e.g.100000,
+    "expected_yearly_transaction_volume": e.g. 10000000
+  }
+
+
+* ###### Response 200
+     {"message": "OK"}
+ 
+* ###### Response 400
+     {"error": true, "message": "description for error"}
+
      
 #### <a name="example_code_for_authentcated_endpoints">Example code for authenticated endpoints</a>
 ##### <a name="java_code">Java</a>
