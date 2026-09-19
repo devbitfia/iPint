@@ -1,0 +1,16 @@
+name: No-Op Sample Workflow
+
+on:
+  push:
+    branches: [ main, qa, dev ]
+  pull_request:
+    branches: [ main, qa, dev ]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  do-nothing:
+    name: No-Op Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping
+        run: echo "Doing nothing!"
